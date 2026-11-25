@@ -1,0 +1,28 @@
+schema: spec-driven
+
+context: |
+  Hybrid TPA-Agent (Hybrid Technical & Price Action Agent) is a research prototype
+  for reliable short-term cryptocurrency trading decision support (BTC/USDT, ETH/USDT
+  on 5m/15m timeframes).
+  Core principle: strict decoupling between deterministic spatial geometry (S&D zones,
+  Volume Profile HVN), calibrated ML probability estimation (XGBoost win rate W),
+  semantic contextual reasoning (LLM Chain-of-Thought over Price Action knowledge),
+  and programmatic risk management (ATR-based SL/TP, RR >= 2.0, positive expectancy,
+  WAIT/NO_TRADE gate, and 3-level degradation).
+  Preserve the strict distinction between hypothesized Expected Targets and empirically
+  verified experimental results.
+
+rules:
+  proposal:
+    - State the research problem, motivation, scope, risks, and expected outcomes.
+    - Explicitly distinguish hypothesized Expected Targets from validated results.
+  specs:
+    - Use testable SHALL requirements with WHEN/THEN scenarios.
+    - Distinguish deterministic computation, ML inference, LLM reasoning, and risk gating.
+    - Include point-in-time data leakage prevention and failure degradation scenarios.
+  design:
+    - Cover all 4 tiers / 8 modules, API contracts, uncertainty/calibration, and failure recovery.
+    - Map every research claim (RQ1-RQ5) to specifications and verification metrics.
+  tasks:
+    - Keep implementation steps small, ordered, and independently verifiable with acceptance criteria.
+    - Do not claim unexecuted backtest results or deploy live capital without review.

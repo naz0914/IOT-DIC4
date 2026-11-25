@@ -13,8 +13,9 @@
   * 7114068023 陳威碩
   * 7114068027 陳沐德
   * 7115068026 古富綿
-* **指導規範**：**2020 A-Z SOP 學術論文寫作標準**（整合實證與決策可靠性深度解析版）
-* **GitHub 專案庫**：`https://github.com/naz0914/IOT-.git`
+* **指導規範**：**2020 A-Z SOP 學術論文寫作標準** ＋ **OpenSpec Spec-Driven Development (SDD)**
+* **GitHub 專案庫**：`https://github.com/naz0914/IOT-DIC4.git`
+* **重構文件導覽**：[`DESIGN.md`](./DESIGN.md) ｜ [`openspec/changes/refactor-hybrid-tpa-agent/`](./openspec/changes/refactor-hybrid-tpa-agent/proposal.md) ｜ [`docs/abstract.md`](./docs/abstract.md) ｜ [`docs/introduction.md`](./docs/introduction.md) ｜ [`docs/related-work.md`](./docs/related-work.md) ｜ [`docs/deep-research.md`](./docs/deep-research.md) ｜ [`docs/references.md`](./docs/references.md)
 
 ---
 
@@ -101,6 +102,8 @@
 * **【F. Findings 預期貢獻與目標】**  
   預期建立可追溯、可複現的研究原型，量化各模組對淨績效、決策一致性與風控遵循的實質增益。本研究旨在釐清 LLM 於金融交易的適用邊界，將最高回撤抑制目標設為 **12% 內**，為高可靠度的金融人工智慧提供堅實的實證研究基礎。
 
+> 📄 **完整 300 字中文學術摘要與 IEEE Systems Journal 單段英文 Abstract**：請參閱 [`docs/abstract.md`](./docs/abstract.md)（含 `Index Terms` 與規格重構版論文結構 [`docs/introduction.md`](./docs/introduction.md)）。
+
 ---
 
 ## 2. 緒論與研究背景：對應 G–L 規範 (Introduction)
@@ -142,6 +145,8 @@ Reuters 於 2025 年 10 月報導，加密貨幣市場在兩日內劇烈下跌�
 
 > **【重點解析 (So What)】**  
 > 表 1 清晰凸顯了既有單一路線的局限性：單一技術皆無法同時滿足『精準空間感知、可靠機率計算、情境語意推理』之交易鐵三角需求。**Hybrid TPA-Agent** 正是填補此重大研究缺口之整合型解方。
+>
+> 📚 **50% AI 技術 + 50% 領域知識文獻回顧與完整 Article Summary Table**：請參閱 [`docs/related-work.md`](./docs/related-work.md)。
 
 ---
 
@@ -348,7 +353,11 @@ $$E = (W \times RR) - ((1 - W) \times 1.0)$$
 
 ---
 
-## 13. 十大深度專業爭辯與邊界檢驗 (Ten Deep Understanding Questions)
+## 13. 深度研究：五大核心思維、三大專業爭論與十大深度理解問題 (Deep Research)
+
+為符合專題規範之深度研究（Deep Research）要求，完整之 **五大核心思維模式（含意義、證據與設計影響）** 與 **三大專業爭論 / Trade-offs（含雙方證據、共識與未解問題）** 已整理於 [`docs/deep-research.md`](./docs/deep-research.md)：
+* **五大核心思維**：(1) 供需失衡與拍賣市場微觀結構、(2) 數學正期望值與機率校準、(3) 決策可靠性與 `WAIT` 優先、(4) 數值與語意徹底解耦、(5) 嚴格 PIT 時點控制與無洩漏實證。
+* **三大專業爭論**：(1) 高訊號覆蓋率 vs. 嚴格濾網與不交易紀律、(2) LLM 語意推理彈性 vs. 重現性與延遲代價、(3) 極短週期 (`1m`) 機會 vs. 微觀雜訊與交易成本侵蝕。
 
 <details>
 <summary><b>點擊展開：十大關鍵問題深入剖析</b></summary>
@@ -392,21 +401,35 @@ $$E = (W \times RR) - ((1 - W) \times 1.0)$$
 
 ## 15. 參考文獻 (References)
 
-1. **Securities and Exchange Board of India (SEBI)**. (2026). *Trading Behaviour of Individual Traders in the Equity Derivatives Segment*.
-2. **Chen, T., & Guestrin, C.** (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785-794.
-3. **Author(s) omitted for blind review**. (2026). Reproducibility in the TradingAgents Framework. *ACM Conference Proceedings*.
+1. **Securities and Exchange Board of India (SEBI), DEPA**. (2026, August). *Trading Behaviour of Individual Traders in the Equity Derivatives Segment (FY25–FY26)*.
+2. **Chen, T., & Guestrin, C.** (2016). XGBoost: A scalable tree boosting system. *Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining*, 785–794.
+3. **Koviazin, A., Mudarisov, T., Polyachenko, E., & State, R.** (2026). Reproducibility in the TradingAgents Framework. *Proceedings of the 2026 International Conference on Artificial Intelligence and Fintech (ICAIF '26)*, ACM, 365–370. DOI: [10.1145/3800973.3801029](https://doi.org/10.1145/3800973.3801029).
 4. **FinForesight Authors**. (2026). FinForesight: Assessing Information Leakage and LLM Financial Prediction Capabilities. *arXiv preprint*.
-5. **Reuters**. (2025, October 13). *Crypto markets face severe liquidation event amid volatile trading conditions*.
+5. **Reuters**. (2025, October). *Crypto markets face severe liquidation event amid volatile trading conditions*.
 6. **Brooks, A.** (2012). *Reading Price Charts Bar by Bar: The Technical Analysis of Price Action for the Serious Trader*. John Wiley & Sons.
+7. **arXiv:2407.11786**. (2024). Cryptocurrency Price Forecasting Using XGBoost Regressor and Technical Indicators. *arXiv preprint*. DOI: [10.48550/arXiv.2407.11786](https://doi.org/10.48550/arXiv.2407.11786).
+8. **Almeida, J., & Gonçalves, T. C.** (2023/2024). Cryptocurrency market microstructure: a systematic literature review. *Annals of Operations Research*. DOI: [10.1007/s10479-023-05627-5](https://doi.org/10.1007/s10479-023-05627-5).
+
+> 詳細文獻邊界與限制說明請見 [`docs/references.md`](./docs/references.md)。
 
 ---
 
 ## 16. 專案檔案結構 (Repository Structure)
 
 ```text
-AIoT/
+IOT-DIC4/
 ├── README.md                                             # 專案總覽、架構與學術規範完整文檔
+├── DESIGN.md                                             # 系統架構、資料契約、演算法與驗證追溯設計書
 ├── .gitignore                                            # Git 忽略配置（環境變數、模型與快取防護）
+├── docs/                                                 # OpenSpec 重構後之學術論文核心章節
+│   ├── abstract.md                                       # A–F 結構、300 字中文摘要與 IEEE 英文 Abstract
+│   ├── introduction.md                                   # A–F / G–L 緒論（限制對映設計與可測試貢獻）
+│   ├── related-work.md                                   # 50% AI + 50% Domain 文獻回顧與 Article Summary Table
+│   ├── deep-research.md                                  # 5 核心思維、3 大專業爭論與 10 深度問題
+│   └── references.md                                     # 經查核之文獻清單與外推限制說明
+├── openspec/                                             # OpenSpec 規格驅動開發 (SDD) 工作流
+│   ├── config.yaml                                       # OpenSpec 專案規則與研究倫理限制
+│   └── changes/refactor-hybrid-tpa-agent/                # 系統規格重構提案、設計、分層 specs 與 tasks
 ├── 架構圖.png                                             # Layer 1 ~ Layer 4 系統架構圖
 ├── 流程圖flowchart.png                                    # 端到端決策與風控執行流程圖
 ├── IMG_9464.png                                          # 2020 A-Z SOP 學術規範指引圖
