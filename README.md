@@ -15,7 +15,7 @@
   * 7115068026 古富綿
 * **指導規範**：**2020 A-Z SOP 學術論文寫作標準** ＋ **OpenSpec Spec-Driven Development (SDD)**
 * **GitHub 專案庫**：`https://github.com/naz0914/IOT-DIC4.git`
-* **重構文件導覽**：[`DESIGN.md`](./DESIGN.md) ｜ [`openspec/changes/refactor-hybrid-tpa-agent/`](./openspec/changes/refactor-hybrid-tpa-agent/proposal.md) ｜ [`docs/abstract.md`](./docs/abstract.md) ｜ [`docs/introduction.md`](./docs/introduction.md) ｜ [`docs/related-work.md`](./docs/related-work.md) ｜ [`docs/deep-research.md`](./docs/deep-research.md) ｜ [`docs/references.md`](./docs/references.md)
+* **重構文件導覽**：[`DESIGN.md`](./DESIGN.md) ｜ [`ICEIB paper/main.tex`](./ICEIB%20paper/main.tex) ｜ [`openspec/changes/iceib-paper-a2z/`](./openspec/changes/iceib-paper-a2z/proposal.md) ｜ [`openspec/changes/refactor-hybrid-tpa-agent/`](./openspec/changes/refactor-hybrid-tpa-agent/proposal.md) ｜ [`docs/abstract.md`](./docs/abstract.md) ｜ [`docs/introduction.md`](./docs/introduction.md) ｜ [`docs/related-work.md`](./docs/related-work.md) ｜ [`docs/deep-research.md`](./docs/deep-research.md) ｜ [`docs/references.md`](./docs/references.md)
 
 ---
 
@@ -81,7 +81,8 @@
 14. [十大深度專業爭辯與邊界檢驗 (Ten Deep Understanding Questions)](#13-十大深度專業爭辯與邊界檢驗-ten-deep-understanding-questions)
 15. [研究限制與學術客觀表述原則 (Limitations & Objective Stance)](#14-研究限制與學術客觀表述原則-limitations--objective-stance)
 16. [參考文獻 (References)](#15-參考文獻-references)
-17. [專案檔案結構 (Repository Structure)](#16-專案檔案結構-repository-structure)
+17. [IEEE ICEIB 論文重構與 OpenSpec 細項工作流 (ICEIB Paper & OpenSpec)](#16-ieee-iceib-論文重構與-openspec-細項工作流-iceib-paper--openspec)
+18. [專案檔案結構 (Repository Structure)](#17-專案檔案結構-repository-structure)
 
 ---
 
@@ -414,13 +415,180 @@ $$E = (W \times RR) - ((1 - W) \times 1.0)$$
 
 ---
 
-## 16. 專案檔案結構 (Repository Structure)
+## 16. IEEE ICEIB 論文重構與 OpenSpec 細項工作流 (ICEIB Paper & OpenSpec)
+
+本次更新新增了 **IEEE ICEIB 會議論文標準化管線**、**Overleaf MCP 雲端編譯同步**，以及 **總體＋分章節 OpenSpec 細項規範**，確保論文內容、數學證明、實驗邊界與系統設計規格維持 100% 一致：
+
+### 16.1 新增功能亮點
+1. **Overleaf MCP 遠端同步與編譯驗證**：
+   * 透過 `@netique/overleaf-mcp` 連線 Overleaf 專案 `DIC4`，將 [`ICEIB paper/main.tex`](./ICEIB%20paper/main.tex)、[`main.txt`](./ICEIB%20paper/main.txt) 與架構/流程圖（`fig1_arch.png`、`fig2_flow.png`）同步至雲端並執行遠端 `pdfLaTeX` 編譯。
+   * 編譯驗證結果：**0 LaTeX errors**、**PDF 共 6 頁**（符合 IEEE ICEIB `10pt` Times 雙欄、4–6 頁、無自訂頁碼／頁首頁尾之會議格式），且表格與 `Algorithm 1` 均無水平溢出（`Overfull \hbox`）。
+2. **OpenSpec 論文規範工作流（總計畫 ＋ 7 大分章節細項）**：
+   * **總體重構計畫 [`openspec/changes/iceib-paper-a2z/`](./openspec/changes/iceib-paper-a2z/proposal.md)**（`9/9 tasks complete`）：定義 7 大章節重構與 Overleaf 編譯驗收準則。
+   * **分章節細項變更（`000-abstract` ~ `006-reference`，均通過 `openspec validate --strict`）**：每個章節皆具備獨立 `proposal.md`、`specs/`、`design.md` 與 `tasks.md`，支援單章節獨立迭代（例如實驗數據產出後可單獨執行 `openspec-apply-change 004-experiment`）。
+
+### 16.2 IEEE ICEIB 論文內容大綱與 A–Z SOP 映射
+
+| OpenSpec 變更 | 論文章節 (IEEE ICEIB) | 2020 A–Z SOP 對應 | 核心內容與實測頁碼定位 |
+| :--- | :--- | :---: | :--- |
+| [`000-abstract`](./openspec/changes/000-abstract/proposal.md) | **Abstract & Keywords** | `A–F` | 單段式 IEEE 摘要：SEBI 87.7% 虧損引題、三代限制、四層八模組解耦、4 階段 PIT 規劃與可否證預期目標（`p.1`） |
+| [`001-introduction`](./openspec/changes/001-introduction/proposal.md) | **I. Introduction** | `G–L` | 市場動機、SEBI/Reuters 實證、三代文獻批判（含 Koviazin 變異與 FinForesight 洩漏）、4 項可測貢獻與章節組織 `L`（`p.1–2`） |
+| [`002-related-work`](./openspec/changes/002-related-work/proposal.md) | **II. Related Work** | `M–O` | 50% AI 技術（XGBoost、LLM Agents、PIT）＋ 50% 領域知識（微觀結構、Brooks 價格行為、SEBI），含 `Table I` 文獻表與 `Table II` 能力矩陣（`p.2–3`） |
+| [`003-proposed-design`](./openspec/changes/003-proposed-design/proposal.md) | **III. Proposed Design** | `PA–PM` | 整併 5 核心思維與 3 Trade-offs、四層八模組、`fig1_arch.png` / `fig2_flow.png`、`Eqs. (1)–(3)`、`Algorithm 1`、`BTC/USDT 15m` 實例、三級降級與 `Proposition 1` 正期望值邊界證明（`p.3–5`） |
+| [`004-experiment`](./openspec/changes/004-experiment/proposal.md) | **IV. Experiment** | `Q–V` | 4 維評估指標、4 組基線（`B1–B3`＋`Ablation`）、4 階段 PIT 與 2025-10 清算壓力測試、參數敏感度、`Table III` 假說目標（明確標註未實測）與 `RQ1–RQ5` 檢驗（`p.5`） |
+| [`005-conclusion`](./openspec/changes/005-conclusion/proposal.md) | **V. Conclusion** | `W–Z` | 架構總結與優勢、預期產出、4 項外部效度限制與負向消融結果揭露承諾（`p.5–6`） |
+| [`006-reference`](./openspec/changes/006-reference/proposal.md) | **References** | IEEE 引用規範 | 9 筆經查核之 IEEE 格式文獻，與 `docs/references.md` 雙向對齊且無未定義引用（`p.6`） |
+
+### 16.3 IEEE ICEIB 會議論文完整版（同步自 [`ICEIB paper/main.tex`](./ICEIB%20paper/main.tex)）
+
+> **編譯狀態**：已透過 Overleaf MCP（`DIC4`）以 `pdfLaTeX`（`IEEEtran` conference, `10pt` Times 雙欄）編譯通過（**0 errors、共 6 頁**）。以下為與 [`ICEIB paper/main.tex`](./ICEIB%20paper/main.tex) 完全一致之論文全文：
+
+#### Title
+**Hybrid TPA-Agent: A Decoupled Data-Grounded and Risk-Gated AI Agent for Reliable Short-Term Cryptocurrency Trading Support**
+
+* **Authors (Camera-Ready 待補英文拼寫與系所信箱)**：7115056027 陳柏安、7114056115 侯佳旻、7114068023 陳威碩、7114068027 陳沐德、7115068026 古富綿
+
+#### Abstract (`A–F`)
+Short-term cryptocurrency and derivatives trading exposes participants to severe microstructure noise, extreme liquidation cascades, and cognitive decision biases. Empirical regulatory evidence from the Securities and Exchange Board of India (SEBI, 2026) reports that 87.7% of 7.86 million individual equity derivatives traders incurred net losses in FY26, underscoring that trading decision-support systems must prioritize risk containment and decision reliability over sheer signal frequency. However, conventional technical indicators suffer from lag and lack continuous spatial representation, standalone machine learning (ML) classifiers overlook structural liquidity context, and pure large language model (LLM) trading agents exhibit substantial stochastic variance across decoding runs, numerical hallucination, and susceptibility to historical data leakage. To address these gaps, this paper proposes *Hybrid TPA-Agent*, a decoupled four-tier, eight-module architecture that strictly separates deterministic spatial geometry, calibrated probabilistic estimation, semantic Price Action reasoning, and programmatic risk enforcement. Specifically, a deterministic engine identifies unmitigated supply and demand (S&D) zones alongside Volume Profile high-volume nodes (HVNs) and support/resistance flips, after which a probability-calibrated XGBoost classifier estimates conditional win probability $W$ to short-circuit weak setups within 5 ms. Passing candidates are audited by an LLM planner constrained to read-only JSON summaries and a codified Price Action knowledge base under zero-temperature Chain-of-Thought decoding, before a programmatic risk engine enforces ATR-buffered stop-loss placement, geometric risk-to-reward ($\mathrm{RR} \ge 2.0$), cost-adjusted positive expectancy, `WAIT/NO_TRADE` abstention logging, and a three-level outage degradation protocol. To evaluate functional decoupling rigorously, we design a four-stage, point-in-time (PIT) experimental framework on 5-minute and 15-minute `BTC/USDT` and `ETH/USDT` datasets against rule-based, standalone ML, standalone LLM, and ablated baselines under explicit 0.04% taker fees and slippage. All performance benchmarks reported herein represent falsifiable hypothesized targets (e.g., $\le 12\%$ maximum drawdown and $>95\%$ multi-run consistency) rather than completed empirical claims, establishing a reproducible OpenSpec foundation for verifiable financial AI safety.
+
+**Index Terms—** Algorithmic trading, domain-specific AI agents, supply and demand zones, XGBoost probability calibration, large language models, point-in-time evaluation, risk management, spec-driven development.
+
+---
+
+#### I. Introduction (`G–L`)
+Modern cryptocurrency derivatives and intraday trading operate continuously under high leverage and pronounced non-stationarity. Under rapid price fluctuations, retail and non-institutional participants frequently experience cognitive overload and emotional bias, leading to unhedged overtrading. Rather than seeking another black-box predictor of price direction, reliable short-term decision support must generate traceable, risk-bounded actions—including disciplined abstention when market structure is unfavorable.
+
+Empirical regulatory and market evidence underscores why signal generation alone fails in practice. An empirical study by the Securities and Exchange Board of India (SEBI) covering FY25–FY26 across 7.86 million individual equity derivatives traders revealed that 87.7% incurred net losses in FY26, while multi-year cohorts show only 0.5% consistent annual profitability and 90–92% repeat losses `[1]`. In digital assets, acute liquidity shocks amplify this fragility: in October 2025, a two-day sell-off triggered over \$19 billion in leveraged liquidations alongside a greater than 14% drop in Bitcoin (BTC) `[2]`. Consequently, trading experience and higher signal frequency do not automatically yield positive net returns; the central engineering challenge is enforcing deterministic risk bounds, verifiable rationale, and reliable abstention.
+
+Existing short-term decision-support systems have evolved across three generations:
+1. **Rule-Based Indicators:** Moving average crossovers, RSI, and MACD smooth past prices with closed-form formulas, offering 100% determinism without awareness of discontinuous order-flow zones `[3]`.
+2. **Standalone Machine Learning:** Gradient-boosted decision trees such as XGBoost model nonlinear feature interactions efficiently `[4], [5]`, yet treat OHLCV bars as uniform tabular slices.
+3. **Pure LLM Multi-Agent Frameworks:** Recent LLM agents coordinate analyst and risk personas through natural-language debate to capture qualitative market context.
+
+Critical evaluation exposes complementary flaws across all three generations. Rule-based oscillators lag during range-bound consolidations and produce low reward-to-risk whipsaws. Standalone ML classifiers lack spatial liquidity context and suffer from false-positive volume traps in thin markets unless calibrated and structurally filtered. Meanwhile, pure LLM agents exhibit severe stochastic instability and arithmetic unreliability: Koviazin *et al.* `[6]` showed that under `temperature = 1`, GPT-4o and Qwen3 agents exhibit 3-month cumulative return standard deviations of 9.0–9.4 percentage points, and LLMs remain prone to floating-point hallucination. Furthermore, *FinForesight* `[7]` demonstrated that 25 of 27 historical evaluation intervals suffered from information leakage, with strict point-in-time (PIT) isolation cutting score gaps by 76%. Thus, the core research question is: *How can a domain-specific AI agent decouple spatial geometry, calibrated win-rate estimation, Price Action semantics, and programmatic risk gating so that identical PIT snapshots yield reproducible, zero-arithmetic-hallucination decisions (`APPROVED` or `WAIT/NO_TRADE`)?*
+
+To answer this question, we propose **Hybrid TPA-Agent**, formalized via OpenSpec specification-driven development `[9]`, with four testable contributions:
+1. **Decoupled Four-Tier Architecture:** Strict separation of deterministic Python geometry ($\mathcal{O}(N)$ / $\mathcal{O}(N\log B)$), calibrated XGBoost probability estimation, read-only JSON-constrained LLM Chain-of-Thought (CoT) auditing (`temperature = 0.0`), and programmatic risk math targeting $>95\%$ consistency and $0\%$ numerical/risk violations.
+2. **Objective Price Action Formalization:** Codification of unmitigated Supply & Demand (S&D) zones, Volume Profile High-Volume Nodes (HVNs), Support/Resistance (S/R) Flips, Pinbar absorption, Liquidity Sweeps, and Change of Character (ChoCh) into auditable state machines and rules.
+3. **First-Class `WAIT/NO_TRADE` Abstention Auditing:** Explicit probability, risk-to-reward ($\mathrm{RR} \ge 2.0$), and feed-health gates paired with counterfactual logging of rejected signals to measure avoided losses versus missed opportunities.
+4. **Leakage-Free Four-Stage Validation Protocol:** Integration of chronological splitting, strict PIT snapshot isolation, October 2025 liquidation stress testing, and hash-committed forward simulation under 0.04% taker fees and slippage.
+
+The remainder of this paper is organized as follows. Section II reviews AI methodologies and financial domain literature, synthesizes capability gaps, and positions our approach. Section III details the proposed four-tier, eight-module design, mathematical formulation, Algorithm 1, illustrative walkthrough, and expectancy bounds. Section IV defines the planned four-stage PIT experimental protocol, baselines, and hypothesized targets for `RQ1–RQ5`. Finally, Section V summarizes key contributions, external validity limitations, and future work.
+
+---
+
+#### II. Related Work (`M–O`)
+To balance artificial intelligence engineering with financial domain rigor, we review foundational literature from simple deterministic methods to complex multi-agent LLMs and summarize key studies in Table I.
+
+* **AI Technology (Gradient Boosting, LLM Agents, and PIT Controls):** Chen and Guestrin `[4]` introduced XGBoost, providing regularized second-order tree boosting with $\mathcal{O}(T \times D)$ inference complexity suited to low-latency tabular scoring. Subsequent cryptocurrency forecasting work `[5]` applied XGBoost over technical oscillators (EMA, MACD, RSI), demonstrating strong nonlinear fitting but lacking explicit spatial zone awareness, probability calibration checks, or transaction-cost-aware abstention gates. At the generative AI frontier, Koviazin *et al.* `[6]` audited reproducibility in TradingAgents and documented substantial return variance across temperature and random seeds (9.0–9.4 pp standard deviation), alongside reasoning models ignoring sampling parameters. Separately, *FinForesight* `[7]` evaluated 22 financial LLM workflows across US, Chinese, and Hong Kong markets, proving that pretraining memory and unconstrained retrieval inflate historical scores (25/27 intervals leaked) unless strict PIT timestamps and leakage filters are enforced.
+* **Domain Knowledge (Market Microstructure, Price Action, and Risk):** Almeida and Gonçalves `[8]` systematically reviewed 138 cryptocurrency market microstructure studies, highlighting extreme intraday non-stationarity, fragmented order-book depth, bid-ask spreads, and the decisive erosion of short-horizon alpha by exchange fees and slippage—motivating avoiding sub-minute (`1m`) noise regimes and embedding explicit 0.04% taker fees and slippage. Brooks `[3]` formalized order-flow imbalance zones, S/R Flips, Pinbar passive absorption, and liquidity sweeps, whereas existing automated SNR algorithms (Local Extrema, KDE, ZigZag, Pivot Points) extract static horizontal lines without tracking zone mitigation lifecycles or integrating calibrated probability and dynamic ATR risk sizing. Finally, SEBI's FY26 study `[1]` confirms that frequent short-duration derivatives trading without strict stop-loss and abstention discipline leads to widespread retail capital erosion, noting that Indian equity derivatives statistics require empirical re-validation in crypto perpetuals.
+
+**Table I: Summary of Reviewed Literature Across AI Methods and Financial Domain Knowledge**
+
+| Ref. | Year | Problem | AI Method | Domain Knowledge | Dataset / Corpus | Key Findings | Limitations |
+| :--- | :---: | :--- | :--- | :--- | :--- | :--- | :--- |
+| Chen & Guestrin `[4]` | 2016 | Scalable tabular prediction | XGBoost (GBDT) | Regularization, feature splits | Public tabular benchmarks | High accuracy and $\mathcal{O}(T \times D)$ inference speed | No native spatial structure or risk semantics |
+| Crypto XGBoost `[5]` | 2024 | Short-term crypto forecasting | XGBoost Regressor | EMA, MACD, RSI indicators | Historical crypto OHLCV | Captures nonlinear technical dynamics | Lacks S&D zones, cost modeling, and abstention |
+| Koviazin *et al.* `[6]` | 2026 | Multi-agent LLM reproducibility | Multi-Agent LLM (GPT-4o, Qwen3) | Analyst/risk debate roles | Equity prices and news | 9.0–9.4 pp return std. dev. at `temp=1` | High stochasticity; unreliable numeric math |
+| FinForesight `[7]` | 2026 | Financial LLM data leakage | LLM + RAG / Deep Research | PIT financial forecasting | 27 intervals, US/CN/HK markets | 25/27 intervals leaked; PIT cuts gap by 76% | Focuses on long-horizon fundamentals, not 5m/15m K-lines |
+| Almeida & Gonçalves `[8]` | 2023 | Crypto microstructure synthesis | Econometric / Microstructure review | Price discovery, spreads, fees | 138 crypto market papers | Transaction friction critically erodes high-freq alpha | Survey only; no hybrid agent prototype |
+| Brooks `[3]` | 2012 | Chart price action analysis | Rule taxonomy (non-AI) | S&D zones, S/R Flip, Pinbar, ChoCh | Historical price charts | Defines high-RR structural entries | Subjective manual rules; uncalibrated |
+| SEBI DEPA `[1]` | 2026 | Retail derivatives profitability | Regulatory empirical audit | Options/futures exposure | 7.86M FY26 trader accounts | 87.7% net loss rate among retail traders | Indian equity F&O scope; requires crypto validation |
+
+**Table II: Architectural Capability Comparison Matrix**
+
+| Architecture | Spatial | Prob. | Context/Risk | Core Limitation |
+| :--- | :---: | :---: | :---: | :--- |
+| Indicators / Pure ML | None | Strong | None | High noise in sideways markets |
+| Pure LLM Agent | None | Weak | Strong | Numeric hallucination; low consistency |
+| Static SNR (KDE/Pivot) | Medium | None | None | Static lines; no calibrated risk math |
+| **Hybrid TPA-Agent** | **Strong** | **Strong** | **Strong** | Relies on market depth & API uptime |
+
+* **Research Gap and New Proposed Positioning (`N–O`):** As organized in Table II, prior paradigms address spatial geometry, calibrated win-rate statistics, or semantic reasoning in isolation. None unify deterministic unmitigated S&D zones, Brier-calibrated ML filtering, JSON-constrained zero-temperature LLM CoT auditing, and PIT-enforced abstention under explicit exchange costs. Hybrid TPA-Agent is positioned to bridge and empirically falsify or validate this integration gap.
+
+---
+
+#### III. Proposed Design (`PA–PM`)
+* **Design Aim, Theoretical Basis, and Trade-offs (`PA–PD`):** Hybrid TPA-Agent aims to produce reproducible, risk-bounded intraday setups on 5m and 15m `BTC/USDT` and `ETH/USDT` markets by enforcing five domain principles `[3]`: (1) explicit `UNMITIGATED`, `TESTED`, `SR_FLIP`, and `INVALIDATED` zone lifecycles; (2) Platt/Isotonic probability calibration (Brier Score); (3) `WAIT/NO_TRADE` abstention during thin liquidity; (4) separating deterministic numerical math from LLM semantic auditing; and (5) PIT boundaries (`close_time <= t`). Our paradigm shifts from monolithic prediction to staged functional decoupling across three trade-offs: (a) *Filter Strictness vs. Opportunity* (treating $W_{\min}=0.55$ and $\mathrm{RR}_{\min}=2.0$ as tunable parameters audited via counterfactuals); (b) *LLM Context vs. Reproducibility & Latency* (short-circuiting weak setups in $<20\text{ ms}$ at Layer 2, pinning `temperature = 0.0`, and strict JSON fallback); and (c) *Sub-Minute Granularity vs. Cost Erosion* (targeting 5m/15m over noisy `1m` bars `[8]`).
+* **Four-Tier, Eight-Module Architecture and Execution Flow (`PE`, `PG`, `PH`):**
+  * **Layer 1 — Input & Data:** *Module 1.1 (User Preference Block)* validates $S$, $\mathrm{TF} \in \{\text{5m}, \text{15m}\}$, $R_{\text{tol}} \in (0\%, 5\%]$ (default 1%), and fee/slippage schedules; *Module 1.2 (Data Ingestion Engine)* fetches $N \in [200, 500]$ closed OHLCV bars enforcing `close_time <= t` and heartbeat latency checks.
+  * **Layer 2 — Core Analytical Engines:** *Module 2.1 (Deterministic S&D Zone Engine)* runs $\mathcal{O}(N)$ Swing High/Low scanning and $\mathcal{O}(N\log B)$ Volume Profile HVN aggregation ($<15\text{ ms}$ for $N=500$), updating broken demand zones to `SR_FLIP`; *Module 2.2 (ML Win-Rate Engine)* extracts microstructure features and predicts calibrated win probability $W \in [0, 1]$ via XGBoost ($\mathcal{O}(T \times D)$, $<5\text{ ms}$), short-circuiting $W < W_{\min}$ directly to `WAIT/NO_TRADE`.
+  * **Layer 3 — LLM Reasoning & Domain Knowledge:** *Module 3.1 (Domain Knowledge Base)* codifies Price Action rules (Pinbar absorption, Liquidity Sweep, ChoCh, S/R Flip); *Module 3.2 (Planner & Reasoning Agent)* consumes read-only JSON summaries at `temperature = 0.0` and emits schema-validated `{is_valid_setup, pattern_type, evidence, invalidation_flags}` within 800–1200 ms (timeouts or malformed JSON fail safely to `WAIT/NO_TRADE`).
+  * **Layer 4 — Risk Management & Output:** *Module 4.1 (Decision & Risk Engine)* computes ATR-buffered $P_{\text{sl}}$, opposing-zone $P_{\text{tp}}$, $\mathrm{RR}$, cost-adjusted expectancy, and position size while logging rejected candidates; *Module 4.2 (Output Interface)* emits a hash-stamped JSON/Markdown card awaiting human-in-the-loop (HITL) approval.
+
+<div align="center">
+  <img src="./ICEIB%20paper/fig1_arch.png" alt="Fig. 1: Four-tier, eight-module decoupled architecture" width="90%" />
+  <p><em>Fig. 1: Four-tier, eight-module decoupled architecture of Hybrid TPA-Agent.</em></p>
+</div>
+
+<div align="center">
+  <img src="./ICEIB%20paper/fig2_flow.png" alt="Fig. 2: End-to-end decision and risk-gating execution flowchart" width="42%" />
+  <p><em>Fig. 2: End-to-end decision and risk-gating execution flowchart.</em></p>
+</div>
+
+* **Mathematical Formulation (`PF`):** For a long candidate setup, Module 4.1 deterministically computes:
+
+$$\mathrm{RR} = \frac{P_{\text{tp}} - P_{\text{entry}}}{P_{\text{entry}} - P_{\text{sl}}}, \qquad E_{\text{net}} = W \cdot \mathrm{RR} - (1 - W) - c_{\mathrm{rt}}, \qquad \mathrm{Pos} = \frac{\mathrm{Equity} \times R_{\text{tol}}}{|P_{\text{entry}} - P_{\text{sl}}|}$$
+
+  where $c_{\mathrm{rt}} \ge 0$ denotes normalized round-trip exchange fees and slippage per unit risk $R = |P_{\text{entry}} - P_{\text{sl}}|$. Approval requires $\mathrm{RR} \ge \mathrm{RR}_{\min}$, $E_{\text{net}} > 0$, `is_valid_setup = true`, and healthy feed status.
+* **Implementation Pipeline & Three-Level Degradation (`PI`):** `Algorithm 1` (in [`main.tex`](./ICEIB%20paper/main.tex#L203-L230)) executes within a $<1.5\text{ s}$ per-bar budget and enforces three degradation tiers: **Level 1** (feed delay $>2\text{ s}$ or LLM schema/timeout fault) freezes new entries via `WAIT/NO_TRADE`; **Level 2** verifies exchange server-side hard stop-loss orders on open positions and blocks scaling; and **Level 3** (feed outage $>30\text{ s}$ or OOD circuit breaker) triggers urgent alerts and defensive flatten/hedge actions.
+* **Illustrative End-to-End Walkthrough (`PJ`, `BTC/USDT 15m`):** Module 2.1 scans 200 closed bars at \$64,250 and identifies an unmitigated demand zone [\$63,800, \$64,000] backed by Volume Profile HVN alongside an overhead supply zone [\$65,200, \$65,500]. When price retests \$63,950 after sweeping \$63,850 with Volume Z-score $+2.3$ and a long lower wick, Module 2.2 outputs calibrated $W = 0.62 \ge 0.55$, Module 3.2 validates *Liquidity Sweep / Pinbar*, and Module 4.1 sets $P_{\text{entry}} = \$63,950$, $P_{\text{sl}} = \$63,750$, and $P_{\text{tp}} = \$65,150$ ($\mathrm{RR} = 6.0 \ge 2.0$, gross unit expectancy $+3.34$, positive $E_{\text{net}}$ after 0.04% taker fees), emitting an `APPROVED` setup sized to 1% account risk.
+* **Expectancy Bounds, Key Advantages, and Simulation Bridge (`PM`, `PK`, `PL`):**
+  > **Proposition 1 (Cost-Adjusted Positive Expectancy and Bounded Loss):** Under deterministic gating in Equations (1)–(3) with calibrated probability $W \in [0,1]$, round-trip cost ratio $c_{\mathrm{rt}} \ge 0$, and hard server-side stop-loss $P_{\text{sl}}$, any `APPROVED` setup guarantees: (i) strictly positive net expectancy if and only if $W > \frac{1 + c_{\mathrm{rt}}}{1 + \mathrm{RR}}$, and (ii) nominal stop-loss equity exposure bounded by $\mathrm{Pos} \cdot |P_{\text{entry}} - P_{\text{sl}}| = \mathrm{Equity} \cdot R_{\text{tol}}$ (excluding extreme gap slippage).
+  > *Proof:* Expanding $E_{\text{net}} > 0$ gives $W(\mathrm{RR}+1) - 1 - c_{\mathrm{rt}} > 0 \iff W > (1+c_{\mathrm{rt}})/(1+\mathrm{RR})$ since $\mathrm{RR} > 0$, and substituting $\mathrm{Pos}$ yields $\mathrm{Equity} \cdot R_{\text{tol}}$. $\blacksquare$
+
+---
+
+#### IV. Experiment (`Q–V`)
+*Disclosure:* No backtest results are fabricated prior to specification execution; this section defines the falsifiable experimental protocol for `RQ1–RQ5`.
+
+* **Metrics (`Q`), Baselines (`R`), Setup (`S`), Tuning (`T`), and Verification (`V`):** Four metric families (**Prediction Quality**: Precision, ROC-AUC, Brier Score; **Trading Performance**: Net Return, PF, Sharpe, MDD; **Decision Reliability**: Multi-run Consistency Rate, Numerical Error Rate, Risk Violation Rate; **Abstention Quality**: Trade Retention Rate, `WAIT` counterfactual returns) compare **Hybrid TPA-Agent** against **B1** (`EMA+RSI`), **B2** (`Pure XGBoost`), **B3** (`Pure LLM`), and **Ablation** (`S&D+XGBoost`) on 5m/15m `BTC/USDT` and `ETH/USDT` (2023–2024 + Oct 2025 \$19B liquidation window) under 0.04% taker fees and slippage across four stages: (1) chronological split, (2) PIT isolation (`close_time <= t`), (3) extreme-event stress test, and (4) hash-committed forward simulation, with sensitivity analysis on $W_{\min}=0.55$, $\mathrm{RR}_{\min}=2.0$, $N \in [200,500]$, and $B$.
+
+**Table III: Hypothesized Expected Targets (Not Verified Results) for Two-Year Backtest Comparison (`U`)**
+
+| Model / Baseline | Win Rate | PF | Sharpe | MDD | Consistency |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| B1: EMA+RSI | ~41.2% | 1.18 | 0.74 | -28.5% | 100% |
+| B2: Pure XGBoost | ~52.8% | 1.35 | 1.12 | -22.1% | 100% |
+| B3: Pure LLM | ~46.5% | 1.22 | 0.85 | -34.2% | <60% |
+| Ablation: S&D+XGB | ~55.4% | 1.62 | 1.58 | -15.8% | 100% |
+| **Hybrid TPA-Agent** | **~59.2%** | **1.94** | **2.15** | **<= -12.0%** | **>95%** |
+
+---
+
+#### V. Conclusion (`W–Z`)
+* **Summary and Strengths (`W–X`):** Hybrid TPA-Agent reframes short-term cryptocurrency trading AI from unconstrained price prediction to verifiable functional decoupling across deterministic S&D/HVN geometry, calibrated XGBoost filtering, JSON-constrained Price Action CoT auditing, and programmatic risk enforcement (`WAIT/NO_TRADE` + three-level outage degradation).
+* **Expected Yields (`Y`):** Formalized under OpenSpec specifications, the four-stage PIT protocol tests whether decoupling achieves $>95\%$ decision consistency, $0\%$ risk-rule violations, improved net Profit Factor, and $\le 12\%$ maximum drawdown under realistic 0.04% taker fees and slippage.
+* **Limitations and Future Work (`Z`):** Four external-validity boundaries remain: (1) SEBI's 87.7% loss statistic derives from Indian equity derivatives rather than crypto perpetuals; (2) TradingAgents variance `[6]` and FinForesight leakage `[7]` require re-verification on 5m/15m crypto bars; (3) Volume Profile HVNs degrade during thin-liquidity holiday periods; and (4) external LLM API latency or silent model updates can perturb reproducibility despite `temperature = 0.0`. Future work will execute the full four-stage PIT backtest and hash-committed forward simulation; if empirical ablation shows that LLM CoT gains do not justify API latency and cost over `S&D+XGBoost`, that negative boundary will be reported explicitly.
+
+---
+
+#### References
+1. SEBI DEPA, "Trading Behaviour of Individual Traders in the Equity Derivatives Segment (FY25–FY26)," Official Regulatory Study, Aug. 2026.
+2. Reuters, "Crypto markets face severe liquidation event amid volatile trading conditions," Market Report (\$19B+ leveraged liquidations), Oct. 2025.
+3. A. Brooks, *Reading Price Charts Bar by Bar: The Technical Analysis of Price Action for the Serious Trader*. Hoboken, NJ, USA: John Wiley & Sons, 2012.
+4. T. Chen and C. Guestrin, "XGBoost: A scalable tree boosting system," in *Proc. 22nd ACM SIGKDD (KDD)*, 2016, pp. 785–794.
+5. "Cryptocurrency price forecasting using XGBoost regressor and technical indicators," *arXiv preprint*, 2024, doi: `10.48550/arXiv.2407.11786`.
+6. A. Koviazin, T. Mudarisov, E. Polyachenko, and R. State, "Reproducibility in the TradingAgents framework," in *Proc. 2026 Int. Conf. Artif. Intell. Fintech (ICAIF '26)*, ACM, 2026, pp. 365–370, doi: `10.1145/3800973.3801029`.
+7. FinForesight Authors, "FinForesight: Assessing information leakage and LLM financial prediction capabilities," *arXiv preprint*, 2026.
+8. J. Almeida and T. C. Gonçalves, "Cryptocurrency market microstructure: a systematic literature review," *Ann. Oper. Res.*, 2023, doi: `10.1007/s10479-023-05627-5`.
+9. Fission AI, "OpenSpec: Spec-driven development for AI coding assistants," GitHub Repository, 2026, `https://github.com/Fission-AI/OpenSpec`.
+
+---
+
+## 17. 專案檔案結構 (Repository Structure)
 
 ```text
 IOT-DIC4/
-├── README.md                                             # 專案總覽、架構與學術規範完整文檔
+├── README.md                                             # 專案總覽、架構、論文大綱與學術規範文檔
 ├── DESIGN.md                                             # 系統架構、資料契約、演算法與驗證追溯設計書
 ├── .gitignore                                            # Git 忽略配置（環境變數、模型與快取防護）
+├── ICEIB paper/                                          # IEEE ICEIB 會議論文 LaTeX 專案與圖片資產
+│   ├── main.tex                                          # IEEEtran conference 主文稿（6 頁、0 errors）
+│   ├── main.txt                                          # 與 main.tex 同步之純文字上傳鏡像
+│   ├── fig1_arch.png                                     # 四層八模組架構圖（論文 Fig. 1）
+│   ├── fig2_flow.png                                     # 端到端決策與風控流程圖（論文 Fig. 2）
+│   └── iceib_overleaf_upload.zip                         # Overleaf 打包上傳備份
 ├── docs/                                                 # OpenSpec 重構後之學術論文核心章節
 │   ├── abstract.md                                       # A–F 結構、300 字中文摘要與 IEEE 英文 Abstract
 │   ├── introduction.md                                   # A–F / G–L 緒論（限制對映設計與可測試貢獻）
@@ -429,7 +597,16 @@ IOT-DIC4/
 │   └── references.md                                     # 經查核之文獻清單與外推限制說明
 ├── openspec/                                             # OpenSpec 規格驅動開發 (SDD) 工作流
 │   ├── config.yaml                                       # OpenSpec 專案規則與研究倫理限制
-│   └── changes/refactor-hybrid-tpa-agent/                # 系統規格重構提案、設計、分層 specs 與 tasks
+│   └── changes/
+│       ├── refactor-hybrid-tpa-agent/                    # 系統原型四層八模組規格、設計與任務
+│       ├── iceib-paper-a2z/                              # ICEIB 論文整體重構與 Overleaf 編譯驗證（已完成）
+│       ├── 000-abstract/                                 # 分章節細項：Abstract (A–F)
+│       ├── 001-introduction/                             # 分章節細項：Introduction (G–L)
+│       ├── 002-related-work/                             # 分章節細項：Related Work (M–O)
+│       ├── 003-proposed-design/                          # 分章節細項：Proposed Design (PA–PM)
+│       ├── 004-experiment/                               # 分章節細項：Experiment (Q–V)
+│       ├── 005-conclusion/                               # 分章節細項：Conclusion (W–Z)
+│       └── 006-reference/                                # 分章節細項：References (IEEE 引用查核)
 ├── 架構圖.png                                             # Layer 1 ~ Layer 4 系統架構圖
 ├── 流程圖flowchart.png                                    # 端到端決策與風控執行流程圖
 ├── IMG_9464.png                                          # 2020 A-Z SOP 學術規範指引圖
